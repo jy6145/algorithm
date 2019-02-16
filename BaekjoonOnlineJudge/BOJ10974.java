@@ -1,51 +1,68 @@
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.math.BigInteger;
-import java.util.StringTokenizer;
 
 /*
- *  19. 02. 16.
- *	BOJ10974 : 조합, bigInteger
+ *  19. 02. 17.
+ *	BOJ10974 : 순열, 사전순
  *
  */
 
 public class Main {
-	static BigInteger[][] arr;
-
 	public static void main(String[] args) throws Exception {
-
-//		System.setIn(new FileInputStream("input.txt"));
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
+		int n = Integer.parseInt(br.readLine());
 
-		int n = Integer.parseInt(st.nextToken());
-		int m = Integer.parseInt(st.nextToken());
+		int[] arr = new int[n];
+		for (int i = 0; i < arr.length; i++) {
+			arr[i] = i + 1;
+		}
 
-		arr = new BigInteger[n + 1][n + 1];
-
-		System.out.println(combi(n, m));
+		perm(arr, 0);
 	}
 
-	static BigInteger combi(int n, int m) {
-		if (arr[n][m] != null)
-			return arr[n][m];
+	static void perm(int[] arr, int pivot) {
+		if (arr.length == pivot) {
+			for (int x : arr) {
+				System.out.print(x + " ");
+			}
+			System.out.println();
+		}
+		for (int i = pivot; i < arr.length; i++) {
+			swap(arr, i, pivot);
+			rightRotation(arr, pivot + 1, i);
+			perm(arr, pivot + 1);
+			leftRotation(arr, pivot + 1, i);
+			swap(arr, i, pivot);
+		}
+	}
 
-		if (n == m || m == 0) {
-			arr[n][m] = new BigInteger("1");
-			return arr[n][m];
+	static void rightRotation(int[] arr, int start, int end) {
+		if (start > end) {
+			return;
 		}
 
-		BigInteger a = arr[n - 1][m];
-		BigInteger b = arr[n - 1][m - 1];
-		if (a == null) {
-			a = combi(n - 1, m);
+		int tmp = arr[end];
+		for (int i = end; i > start; i--) {
+			arr[i] = arr[i - 1];
 		}
-		if (b == null) {
-			b = combi(n - 1, m - 1);
+		arr[start] = tmp;
+	}
+
+	static void leftRotation(int[] arr, int start, int end) {
+		if (start > end) {
+			return;
 		}
 
-		arr[n][m] = a.add(b);
-		return arr[n][m];
+		int tmp = arr[start];
+		for (int i = start; i < end; i++) {
+			arr[i] = arr[i + 1];
+		}
+		arr[end] = tmp;
+	}
+
+	static void swap(int[] arr, int x, int y) {
+		int tmp = arr[x];
+		arr[x] = arr[y];
+		arr[y] = tmp;
 	}
 }
