@@ -3,10 +3,10 @@ import java.io.InputStreamReader;
 
 /**
  *
- * @fileName		BOJ10974.java
- * @date			2019. 2. 17.
- * @author			Park JunYoung
- * @description	순열, 사전순
+ * @fileName BOJ10974.java
+ * @date 2019. 2. 17.
+ * @author Park JunYoung
+ * @description 순열, 사전순
  *
  */
 

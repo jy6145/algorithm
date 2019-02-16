@@ -6,10 +6,10 @@ import java.util.StringTokenizer;
 
 /**
  *
- * @fileName		BOJ02407.java
- * @date			2019. 2. 16.
- * @author			Park Junyoung
- * @description	조합, bigInteger
+ * @fileName BOJ02407.java
+ * @date 2019. 2. 16.
+ * @author Park Junyoung
+ * @description 조합, bigInteger
  *
  */
 
