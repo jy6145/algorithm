@@ -4,13 +4,16 @@ import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.util.StringTokenizer;
 
-/*
- *  19. 02. 16.
- *	BOJ2407 : 조합, bigInteger
+/**
+ *
+ * @fileName		BOJ02407.java
+ * @date			2019. 2. 16.
+ * @author			Park Junyoung
+ * @description	조합, bigInteger
  *
  */
 
-public class Main {
+public class BOJ02407 {
 	static BigInteger[][] arr;
 
 	public static void main(String[] args) throws Exception {

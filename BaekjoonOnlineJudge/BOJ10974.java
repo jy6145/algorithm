@@ -1,13 +1,16 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-/*
- *  19. 02. 17.
- *	BOJ10974 : 순열, 사전순
+/**
+ *
+ * @fileName		BOJ10974.java
+ * @date			2019. 2. 17.
+ * @author			Park JunYoung
+ * @description	순열, 사전순
  *
  */
 
-public class Main {
+public class BOJ10974 {
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int n = Integer.parseInt(br.readLine());
