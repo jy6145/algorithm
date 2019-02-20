@@ -6,7 +6,15 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.StringTokenizer;
 
-public class Solution {
+/**
+ * @fileName SWEA6057.java
+ * @date 2019. 2. 21.
+ * @author Park JunYoung
+ * @description 그래프의 삼각형, 그래프, 삼중for문
+ *
+ */
+
+public class SWEA6057 {
 	public static void main(String[] args) throws Exception {
 		System.setIn(new FileInputStream("src/input.txt"));
 

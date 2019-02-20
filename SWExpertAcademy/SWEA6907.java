@@ -10,7 +10,7 @@ import java.util.StringTokenizer;
  * @date 2019. 2. 20.
  * @author Park JunYoung
  * @description 단위 변환기 프로그램, hashMap
- * 
+ *
  */
 
 public class SWEA6907 {
@@ -106,7 +106,7 @@ public class SWEA6907 {
 					result.deleteCharAt(0);
 				}
 
-				if (rightNum.equals("1")) { // 정수일 때 소수점 제거 ex) 123. => 123
+				if (result.charAt(result.length() - 1) == '.') { // 정수일 때 소수점 제거 ex) 123. => 123
 					result.deleteCharAt(1);
 				}
 
@@ -118,6 +118,11 @@ public class SWEA6907 {
 					result.deleteCharAt(dotIdx); // 소수점 제거
 				}
 				result.insert(1, '.'); // 소수점 추가
+
+				if (result.charAt(result.length() - 1) == '.') { // 정수일 때 소수점 제거 ex) 123. => 123
+					result.deleteCharAt(1);
+				}
+
 				result.append(" * 10^" + (leftCnt + prefixs.get(prefix)) + " " + measure);
 			}
 

@@ -8,7 +8,7 @@ import java.util.StringTokenizer;
  * @date 2019. 2. 18.
  * @author Park JunYoung
  * @description 히스토그램에서 가장 큰 직사각형
- * 
+ *
  */
 
 public class BOJ06549 {
