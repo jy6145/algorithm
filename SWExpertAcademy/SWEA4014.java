@@ -4,7 +4,15 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-public class Solution {
+/**
+ * @fileName SWEA4014.java
+ * @date 2019. 2. 22.
+ * @author Park JunYoung
+ * @description [모의 SW 역량테스트] 활주로 건설
+ *
+ */
+
+public class SWEA4014 {
 
 	public static void main(String[] args) throws Exception {
 		System.setIn(new FileInputStream("src/input.txt"));
