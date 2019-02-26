@@ -7,7 +7,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-public class Solution {
+/**
+ * @fileName SWEA1234.java
+ * @date 2019. 2. 26.
+ * @author Park JunYoung
+ * @description [S/W 문제해결 기본] 10일차 - 비밀번호	
+ * 
+ */
+
+public class SWEA1234 {
 	public static void main(String[] args) throws Exception {
 		System.setIn(new FileInputStream("src/input.txt"));
 

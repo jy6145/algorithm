@@ -1,53 +1,85 @@
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
+	static int[] dRow = { 0, -1, 0, 1 };
+	static int[] dCol = { -1, 0, 1, 0 };
+
 	public static void main(String[] args) throws Exception {
 		System.setIn(new FileInputStream("src/input.txt"));
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
 
-		int n = Integer.parseInt(br.readLine());
-		int[][] ref = new int[n][2];
+		st = new StringTokenizer(br.readLine());
+		int R = Integer.parseInt(st.nextToken());
+		int C = Integer.parseInt(st.nextToken());
 
-		int a, b;
-		for (int i = 0; i < n; i++) {
-			st = new StringTokenizer(br.readLine());
-			a = Integer.parseInt(st.nextToken());
-			b = Integer.parseInt(st.nextToken());
+		char[][] map = new char[R][C];
 
-			ref[i][0] = a;
-			ref[i][1] = b;
-		}
-
-		Arrays.sort(ref, new Comparator<int[]>() {
-
-			@Override
-			public int compare(int[] o1, int[] o2) {
-				return o1[0] - o2[0];
-			}
-
-		});
-
-		int min = ref[0][0];
-		int max = ref[0][1];
-		System.out.println(min + " " + max);
-		int answer = 1;
-
-		for (int i = 1; i < ref.length; i++) {
-			if (!(min <= ref[i][0] && ref[i][0] <= max)) {
-				min = ref[i][0];
-				max = ref[i][1];
-				System.out.println(min + " " + max);
-
-				answer++;
+		String str = "";
+		for (int i = 0; i < R; i++) {
+			str = br.readLine();
+			for (int j = 0; j < C; j++) {
+				map[i][j] = str.charAt(j);
 			}
 		}
 
-		System.out.println(answer);
+		Queue<Cordi> q;
+		boolean[][] visit;
+		int max = 0;
+		for (int i = 0; i < R; i++) {
+			for (int j = 0; j < C; j++) {
+				if (map[i][j] == 'L') {
+					q = new LinkedList<Cordi>();
+					visit = new boolean[R][C];
+					q.offer(new Cordi(i, j, 1));
+
+					while (!q.isEmpty()) {
+						Cordi now = q.poll();
+						int nowRow = now.row;
+						int nowCol = now.col;
+
+						if (visit[nowRow][nowCol])
+							continue;
+
+						visit[nowRow][nowCol] = true;
+						int nowDepth = now.depth;
+
+						if (max < nowDepth)
+							max = nowDepth;
+
+						int nextRow = 0;
+						int nextCol = 0;
+						for (int k = 0; k < 4; k++) {
+							nextRow = nowRow + dRow[k];
+							nextCol = nowCol + dCol[k];
+
+							if (0 <= nextRow && nextRow < R && 0 <= nextCol && nextCol < C
+									&& map[nextRow][nextCol] == 'L' && !visit[nextRow][nextCol]) {
+								q.offer(new Cordi(nextRow, nextCol, nowDepth + 1));
+							}
+						}
+					}
+				}
+			}
+		}
+
+		System.out.println(max - 1);
+	}
+
+	static class Cordi {
+		int row;
+		int col;
+		int depth;
+
+		public Cordi(int row, int col, int depth) {
+			this.row = row;
+			this.col = col;
+			this.depth = depth;
+		}
 	}
 }
