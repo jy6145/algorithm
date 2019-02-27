@@ -4,7 +4,14 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class Solution {
+/**
+ * @fileName SWEA4789.java
+ * @date 2019. 2. 27.
+ * @author Park JunYoung
+ * @description 성공적인 공연 기획
+ * 
+ */
+public class SWEA4789 {
 	public static void main(String[] args) throws Exception {
 		System.setIn(new FileInputStream("src/input.txt"));
 

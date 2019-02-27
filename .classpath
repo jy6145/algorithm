@@ -9,5 +9,6 @@
 	<classpathentry kind="src" path="SWExpertAcademy"/>
 	<classpathentry kind="src" path="BaekjoonOnlineJudge"/>
 	<classpathentry kind="src" path="FailProblem"/>
+	<classpathentry kind="src" path="JUNGOL"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
