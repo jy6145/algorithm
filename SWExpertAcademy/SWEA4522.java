@@ -3,7 +3,15 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-public class Solution {
+/**
+ * @fileName SWEA4522.java
+ * @date 2019. 3. 3.
+ * @author Park JunYoung
+ * @description 세상의 모든 팰린드롬
+ *
+ */
+
+public class SWEA4522 {
 	public static void main(String[] args) throws Exception {
 		System.setIn(new FileInputStream("src/input.txt"));
 
