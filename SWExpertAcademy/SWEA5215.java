@@ -8,7 +8,7 @@ import java.util.StringTokenizer;
  * @date 2019. 2. 28.
  * @author Park JunYoung
  * @description 햄버거 다이어트, DP
- * 
+ *
  */
 
 public class SWEA5215 {

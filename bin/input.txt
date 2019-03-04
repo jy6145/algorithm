@@ -1,13 +1,7 @@
-<<<<<<< HEAD
-2
-hi
-a??a
-=======
-1
-5 1000
-100 200
-300 500
-250 300
-500 1000
-400 400
->>>>>>> branch 'master' of https://github.com/jy6145/algorithm.git
+3
+6666 3
+tomo mono dak
+52 2
+ja la
+366 3
+dom fon tom
