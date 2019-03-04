@@ -45,7 +45,6 @@ public class SWEA5215 {
 					}
 				}
 			}
-
 			System.out.println("#" + testCase + " " + dp[n][l]);
 		}
 	}
