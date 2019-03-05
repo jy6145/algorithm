@@ -7,9 +7,15 @@ import java.util.List;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-//1238. [S/W 문제해결 기본] 10일차 - Contact
+/**
+ * @fileName SWEA1238.java
+ * @date 2019. 3. 5.
+ * @author Park JunYoung
+ * @description [S/W 문제해결 기본] 10일차 - Contact, BFS
+ *
+ */
 
-public class Solution {
+public class SWEA1238 {
 	public static void main(String[] args) throws Exception {
 		System.setIn(new FileInputStream("src/input.txt"));
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
