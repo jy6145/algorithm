@@ -6,7 +6,15 @@ import java.util.Collections;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
-public class Main {
+/**
+ * @fileName BOJ08983.java
+ * @date 2019. 3. 5.
+ * @author Park JunYoung
+ * @description 사냥꾼, 이진탐색
+ * 
+ */
+
+public class BOJ08983 {
 	static long[] gunArea;
 	static long point;
 
