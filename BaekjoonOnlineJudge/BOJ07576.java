@@ -5,7 +5,15 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class Main {
+/**
+ * @fileName BOJ07576.java
+ * @date 2019. 3. 6.
+ * @author Park JunYoung
+ * @description 토마토, BFS 	
+ * 
+ */
+
+public class BOJ07576 {
 	static int[] dRow = { -1, 0, 1, 0 };
 	static int[] dCol = { 0, -1, 0, 1 };
 

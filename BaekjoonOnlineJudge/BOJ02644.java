@@ -6,14 +6,14 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 /**
- * @fileName BOJ2644.java
+ * @fileName BOJ02644.java
  * @date 2019. 2. 20.
  * @author Park JunYoung
  * @description 촌수계산, BFS
  * 
  */
 
-public class BOJ2644 {
+public class BOJ02644 {
 	public static void main(String[] args) throws Exception {
 		System.setIn(new FileInputStream("src/input.txt"));
 

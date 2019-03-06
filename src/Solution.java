@@ -1,98 +1,74 @@
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
 import java.util.StringTokenizer;
 
-//1238. [S/W 문제해결 기본] 10일차 - Contact
-
+//4613. 러시아 국기 같은 깃발
 public class Solution {
 	public static void main(String[] args) throws Exception {
 		System.setIn(new FileInputStream("src/input.txt"));
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
 
-		for (int testCase = 1; testCase <= 10; testCase++) {
-			st = new StringTokenizer(br.readLine());
+		int T = Integer.parseInt(br.readLine());
 
-			int n = Integer.parseInt(st.nextToken()); // edge 개수
-			int start = Integer.parseInt(st.nextToken()); // 출발점
-
-			List<Node>[] nodes = new ArrayList[101];
-			for (int i = 1; i <= 100; i++) {
-				nodes[i] = new ArrayList<Node>();
-			}
-
-			int from = 0;
-			int to = 0;
-			boolean flag = false;
+		for (int testCase = 1; testCase <= T; testCase++) {
 
 			st = new StringTokenizer(br.readLine());
-			while (st.hasMoreTokens()) {
-				from = Integer.parseInt(st.nextToken());
-				to = Integer.parseInt(st.nextToken());
+			int n = Integer.parseInt(st.nextToken());
+			int m = Integer.parseInt(st.nextToken());
 
-				flag = false;
-				for (Node node : nodes[from]) {
-					if (node.num == to) { // flag=true => 링크 존재
-						flag = true;
+			char[][] area = new char[n][m];
+			int[][] rowColor = new int[n][3]; // White, Blue, Red 해당 줄의 색 개수
+			String tmp = "";
+			for (int i = 0; i < n; i++) {
+				tmp = br.readLine();
+				for (int j = 0; j < m; j++) {
+					area[i][j] = tmp.charAt(j);
+
+					switch (area[i][j]) {
+					case 'W':
+						rowColor[i][0]++;
+						break;
+					case 'B':
+						rowColor[i][1]++;
+						break;
+					case 'R':
+						rowColor[i][2]++;
 						break;
 					}
 				}
+			}
 
-				if (!flag) {
-					nodes[from].add(new Node(to, 0));
+			int chgW = 0;
+			int chgB = 0;
+			int chgR = 0;
+			int min = Integer.MAX_VALUE;
+			// 0 ~ boundary1 => White
+			// boundary1 + 1 ~ boundary2 => Blue
+			// boundary2 + 1 ~ Length-1 => Red
+			// 0 <= boundary1 <= Length-3
+			// boundary1 < boundary2 < Length-1
+			for (int boundary1 = 0; boundary1 < n - 2; boundary1++) { // 경계 1
+				for (int boundary2 = boundary1 + 1; boundary2 < n; boundary2++) { // 경계2
+					chgW = chgB = chgR = 0;
+					for (int i = 0; i <= boundary1; i++)
+						chgW += rowColor[i][1] + rowColor[i][2];
+
+					for (int i = boundary1 + 1; i <= boundary2; i++)
+						chgB += rowColor[i][0] + rowColor[i][2];
+
+					for (int i = boundary2 + 1; i < n; i++)
+						chgR += rowColor[i][0] + rowColor[i][1];
+
+					if (min > chgW + chgB + chgR) {
+						min = chgW + chgB + chgR;
+					}
+
 				}
 			}
 
-			boolean[] visit = new boolean[101];
-
-			Queue<Node> q = new LinkedList<Node>();
-			for (Node node : nodes[start]) {
-				node.hop += 1;
-				q.offer(node);
-			}
-			visit[start] = true;
-
-			// BFS
-			Node now = null;
-			int answer = start;
-			int maxHop = 0;
-			while (!q.isEmpty()) {
-				now = q.poll();
-
-				if (visit[now.num]) // 방문했을경우
-					continue;
-
-				visit[now.num] = true;
-
-				if (maxHop < now.hop) {
-					maxHop = now.hop;
-					answer = now.num;
-				} else if (maxHop == now.hop && now.num > answer) {
-					answer = now.num;
-				}
-
-				for (Node node : nodes[now.num]) {
-					node.hop = now.hop + 1;
-					q.offer(node);
-				}
-			}
-
-			System.out.println("#" + testCase + " " + answer);
-		}
-	}
-
-	static class Node {
-		int num;
-		int hop;
-
-		public Node(int num, int hop) {
-			this.num = num;
-			this.hop = hop;
+			System.out.println("#" + testCase + " " + min);
 		}
 	}
 }
