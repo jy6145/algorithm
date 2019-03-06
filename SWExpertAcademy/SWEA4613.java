@@ -3,7 +3,15 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-public class Solution {
+/**
+ * @fileName SWEA4613.java
+ * @date 2019. 3. 7.
+ * @author Park JunYoung
+ * @description 러시아 국기 같은 깃발
+ *
+ */
+
+public class SWEA4613 {
 	public static void main(String[] args) throws Exception {
 		System.setIn(new FileInputStream("src/input.txt"));
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

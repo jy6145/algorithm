@@ -5,7 +5,15 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class Main {
+/**
+ * @fileName BOJ14503.java
+ * @date 2019. 3. 7.
+ * @author Park JunYoung
+ * @description 로봇 청소기
+ *
+ */
+
+public class BOJ14503 {
 	final static int NORTH = 0;
 	final static int EAST = 1;
 	final static int SOUTH = 2;

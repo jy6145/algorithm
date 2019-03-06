@@ -6,6 +6,14 @@ import java.util.List;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
+/**
+ * @fileName BOJ05021.java
+ * @date 2019. 3. 5.
+ * @author Park JunYoung
+ * @description 왕위 계승
+ *
+ */
+
 public class BOJ05021 {
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

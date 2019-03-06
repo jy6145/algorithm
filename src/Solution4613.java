@@ -3,7 +3,8 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-public class Solution {
+//4613. 러시아 국기 같은 깃발
+public class Solution4613 {
 	public static void main(String[] args) throws Exception {
 		System.setIn(new FileInputStream("src/input.txt"));
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -49,7 +50,7 @@ public class Solution {
 			// 0 <= boundary1 <= Length-3
 			// boundary1 < boundary2 < Length-1
 			for (int boundary1 = 0; boundary1 < n - 2; boundary1++) { // 경계 1
-				for (int boundary2 = boundary1 + 1; boundary2 < n - 1; boundary2++) { // 경계2
+				for (int boundary2 = boundary1 + 1; boundary2 < n; boundary2++) { // 경계2
 					chgW = chgB = chgR = 0;
 					for (int i = 0; i <= boundary1; i++)
 						chgW += rowColor[i][1] + rowColor[i][2];
