@@ -5,7 +5,15 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class Main {
+/**
+ * @fileName JO1840.java
+ * @date 2019. 3. 7.
+ * @author Park JunYoung
+ * @description 치즈, BFS
+ * 
+ */
+
+public class JO1840 {
 	static int[] dRow = { 0, -1, 0, 1 };
 	static int[] dCol = { -1, 0, 1, 0 };
 

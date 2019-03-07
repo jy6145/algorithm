@@ -6,8 +6,15 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class Solution {
+/**
+ * @fileName SWEA1219.java
+ * @date 2019. 3. 7.
+ * @author Park JunYoung
+ * @description [S/W 문제해결 기본] 4일차 - 길찾기
+ * 
+ */
 
+public class SWEA1219 {
 	public static void main(String[] args) throws Exception {
 		System.setIn(new FileInputStream("src/input.txt"));
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
