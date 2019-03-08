@@ -1,57 +1,36 @@
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.StringTokenizer;
 
 public class Solution {
 
 	public static void main(String[] args) throws Exception {
 		System.setIn(new FileInputStream("src/input.txt"));
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
 
 		for (int testCase = 1; testCase <= 10; testCase++) {
-			st = new StringTokenizer(br.readLine());
+			int n = Integer.parseInt(br.readLine()); // 농구 선수
+			int[] cnt = new int[26]; // 알파벳 카운트
 
-			st.nextToken(); // 테스트 케이스 번호
-			int n = Integer.parseInt(st.nextToken()); // edge 개수
-
-			ArrayList<ArrayList<Integer>> list = new ArrayList<ArrayList<Integer>>();
-			for (int i = 0; i < 100; i++) {
-				list.add(new ArrayList<Integer>());
-			}
-
-			int from = 0;
-			int to = 0;
-			st = new StringTokenizer(br.readLine());
+			String str;
+			int max = 0;
 			for (int i = 0; i < n; i++) {
-				from = Integer.parseInt(st.nextToken());
-				to = Integer.parseInt(st.nextToken());
-				list.get(from).add(to);
+				str = br.readLine();
+				cnt[str.charAt(0) - 'a']++;
+				if (str.charAt(0) - 'a' > max)
+					max = str.charAt(0) - 'a';
 			}
 
-			Queue<Integer> q = new LinkedList<Integer>();
-
-			q.offer(0);
-
-			int answer = 0;
-			int now = 0;
-			while (!q.isEmpty()) {
-				now = q.poll();
-
-				if (now == 99) {
-					answer = 1;
-					break;
-				}
-
-				for (int i = 0; i < list.get(now).size(); i++)
-					q.offer(list.get(now).get(i));
+			StringBuilder answer = new StringBuilder();
+			for (int i = 0; i < 26; i++) {
+				if (cnt[i] == max)
+					answer.append('a' + i);
 			}
 
-			System.out.println("#" + testCase + " " + answer);
+			if (answer.equals(""))
+				answer.append("PREDAJA");
+
+			System.out.println(answer.toString());
 		}
 	}
 }
