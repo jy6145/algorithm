@@ -4,7 +4,15 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-public class Solution {
+/**
+ * @fileName SWEA1767.java
+ * @date 2019. 3. 11.
+ * @author Park JunYoung
+ * @description [SW Test 샘플문제] 프로세서 연결하기, DFS, 재귀 시 방문값 같이 넘기기!
+ *
+ */
+
+public class SWEA1767 {
 	static class Coordi {
 		int row;
 		int col;
