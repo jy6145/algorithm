@@ -1,138 +1,50 @@
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.StringTokenizer;
-
+// 4796. 의석이의 우뚝 선 산
 public class Solution {
-	static class Coordi {
-		int row;
-		int col;
-
-		public Coordi(int row, int col) {
-			this.row = row;
-			this.col = col;
-		}
-	}
-
-	static int n;
-	static ArrayList<Coordi> core;
-	static int maxCore;
-	static int minLine;
-
-	static void dfs(int[][] map, int idx, int coreCnt, int lineLength, int lastIdx) {
-		if (maxCore < coreCnt) {
-			maxCore = coreCnt;
-			minLine = lineLength;
-		} else if (maxCore == coreCnt && minLine > lineLength) {
-			minLine = lineLength;
-		}
-
-		if (idx == lastIdx || maxCore > coreCnt + (lastIdx - idx)) {
-			return;
-		}
-
-		Coordi c = core.get(idx);
-
-		boolean flag = false;
-		int[][] copy = new int[n][n];
-
-		// 전선을 위로 연결
-		flag = false;
-		for (int i = 0; i < c.row; i++) {
-			if (map[i][c.col] != 0) {
-				flag = true;
-				break;
-			}
-		}
-		if (!flag) {
-			mapCopy(map, copy);
-			for (int i = 0; i < c.row; i++)
-				copy[i][c.col] = -1;
-			dfs(copy, idx + 1, coreCnt + 1, lineLength + c.row, lastIdx);
-		}
-
-		// 전선을 아래로 연결
-		flag = false;
-		for (int i = c.row + 1; i < n; i++) {
-			if (map[i][c.col] != 0) {
-				flag = true;
-				break;
-			}
-		}
-		if (!flag) {
-			mapCopy(map, copy);
-			for (int i = c.row + 1; i < n; i++)
-				copy[i][c.col] = -1;
-			dfs(copy, idx + 1, coreCnt + 1, lineLength + (n - c.row - 1), lastIdx);
-		}
-
-		// 전선을 왼쪽으로 연결
-		flag = false;
-		for (int i = 0; i < c.col; i++) {
-			if (map[c.row][i] != 0) {
-				flag = true;
-				break;
-			}
-		}
-		if (!flag) {
-			mapCopy(map, copy);
-			for (int i = 0; i < c.col; i++)
-				copy[c.row][i] = -1;
-			dfs(copy, idx + 1, coreCnt + 1, lineLength + c.col, lastIdx);
-		}
-
-		// 전선을 오른쪽으로 연결
-		flag = false;
-		for (int i = c.col + 1; i < n; i++) {
-			if (map[c.row][i] != 0) {
-				flag = true;
-				break;
-			}
-		}
-		if (!flag) {
-			mapCopy(map, copy);
-			for (int i = c.col + 1; i < n; i++)
-				copy[c.row][i] = -1;
-			dfs(copy, idx + 1, coreCnt + 1, lineLength + (n - c.col - 1), lastIdx);
-		}
-
-		// 전선을 연결하지 않을 경우
-		dfs(map, idx + 1, coreCnt, lineLength, lastIdx);
-
-	}
-
-	static void mapCopy(int[][] map, int[][] copy) {
-		for (int i = 0; i < n; i++)
-			System.arraycopy(map[i], 0, copy[i], 0, n);
-	}
-
 	public static void main(String[] args) throws Exception {
 		System.setIn(new FileInputStream("src/input.txt"));
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
 
-		int T = Integer.parseInt(br.readLine());
+		int T = Integer.parseInt(br.readLine().trim());
 		for (int testCase = 1; testCase <= T; testCase++) {
-			n = Integer.parseInt(br.readLine());
-			int[][] map = new int[n][n];
-			core = new ArrayList<Coordi>();
+			int n = Integer.parseInt(br.readLine().trim());
 
-			for (int i = 0; i < n; i++) {
-				st = new StringTokenizer(br.readLine());
-				for (int j = 0; j < n; j++) {
-					map[i][j] = Integer.parseInt(st.nextToken());
-
-					// 모서리를 제외한 코어 추가
-					if (map[i][j] == 1 && i != 0 && i != n - 1 && j != 0 && j != n - 1)
-						core.add(new Coordi(i, j));
+			boolean flag = false; // false : / true : \
+			long num = 0;
+			long left = 0; // 첫번째 값 카운트
+			long right = 1;
+			long answer = 0;
+			st = new StringTokenizer(br.readLine());
+			long pre = Integer.parseInt(st.nextToken());
+			for (int i = 1; i < n; i++) {
+				num = Integer.parseInt(st.nextToken());
+				if (!flag) {
+					if (pre < num)
+						left++;
+					else {
+						flag = !flag;
+					}
+				} else {
+					if (pre > num)
+						right++;
+					else {
+						answer += left * right;
+						left = 1;
+						right = 1;
+						flag = !flag;
+					}
 				}
+				pre = num;
 			}
 
-			maxCore = 0;
-			minLine = Integer.MAX_VALUE;
-			dfs(map, 0, 0, 0, core.size());
-			System.out.println("#" + testCase + " " + minLine);
+			if (flag)
+				answer += left * right; // 끝나는 지점에서 남아있을 경우
+
+			System.out.println("#" + testCase + " " + answer);
 		}
 	}
 }
