@@ -2,49 +2,37 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
-// 4796. 의석이의 우뚝 선 산
+
 public class Solution {
 	public static void main(String[] args) throws Exception {
 		System.setIn(new FileInputStream("src/input.txt"));
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
 
-		int T = Integer.parseInt(br.readLine().trim());
+		int T = Integer.parseInt(br.readLine());
 		for (int testCase = 1; testCase <= T; testCase++) {
-			int n = Integer.parseInt(br.readLine().trim());
-
-			boolean flag = false; // false : / true : \
-			long num = 0;
-			long left = 0; // 첫번째 값 카운트
-			long right = 1;
-			long answer = 0;
 			st = new StringTokenizer(br.readLine());
-			long pre = Integer.parseInt(st.nextToken());
-			for (int i = 1; i < n; i++) {
-				num = Integer.parseInt(st.nextToken());
-				if (!flag) {
-					if (pre < num)
-						left++;
-					else {
-						flag = !flag;
-					}
-				} else {
-					if (pre > num)
-						right++;
-					else {
-						answer += left * right;
-						left = 1;
-						right = 1;
-						flag = !flag;
-					}
-				}
-				pre = num;
+			String A = st.nextToken();
+			String B = st.nextToken();
+
+			long dp[] = new long[Math.max(A.length(), B.length()) + 1];
+			for (int i = 1; i < dp.length; i++)
+				dp[i] = (int) (dp[i - 1] * 8 + Math.pow(10, i - 1));
+
+			long answer = 0;
+			if (A.charAt(A.length() - 2) - '0' >= 4)
+				answer += 1;
+
+			int digit = 0;
+			for (int i = dp.length - 2; i >= 0; i--) {
+				digit = A.charAt(i) - 0;
+				if (digit < 4)
+					answer += dp[dp.length - (i + 1)] * (digit + 1);
+				else
+					answer += dp[dp.length - (i + 1)] * (digit - 1) + Math.pow(10, i - 1);
 			}
 
-			if (flag)
-				answer += left * right; // 끝나는 지점에서 남아있을 경우
-
-			System.out.println("#" + testCase + " " + answer);
+			System.out.println(answer);
 		}
 	}
 }
