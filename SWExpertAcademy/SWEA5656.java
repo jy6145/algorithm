@@ -5,7 +5,15 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class Solution {
+/**
+ * @fileName SWEA5656.java
+ * @date 2019. 3. 13.
+ * @author Park JunYoung
+ * @description [모의 SW 역량테스트] 벽돌 깨기
+ *
+ */
+
+public class SWEA5656 {
 	static int n;
 	static int w;
 	static int h;
