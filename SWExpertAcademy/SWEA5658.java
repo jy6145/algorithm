@@ -8,7 +8,15 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.StringTokenizer;
 
-public class Solution {
+/**
+ * @fileName SWEA5658.java
+ * @date 2019. 3. 14.
+ * @author Park JunYoung
+ * @description [모의 SW 역량테스트] 보물상자 비밀번호, 진수변환
+ *
+ */
+
+public class SWEA5658 {
 	public static void main(String[] args) throws Exception {
 		System.setIn(new FileInputStream("src/input.txt"));
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -22,7 +30,7 @@ public class Solution {
 			int K = Integer.parseInt(st.nextToken());
 
 			String code = br.readLine();
-			int size = N / 4; // 3글자씩 코드 해독
+			int size = N / 4; // (N/4)글자씩 코드 해독
 			Set<Integer> nums = new HashSet<Integer>();
 			for (int i = 0; i < size; i++) {
 				for (int j = 0; j < N; j += size) {
