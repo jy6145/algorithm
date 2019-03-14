@@ -5,7 +5,15 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class Solution {
+/**
+ * @fileName SWEA2477.java
+ * @date 2019. 3. 14.
+ * @author Park JunYoung
+ * @description [모의 SW 역량테스트] 차량 정비소, 시뮬레이션
+ * 
+ */
+
+public class SWEA2477 {
 	public static void main(String[] args) throws Exception {
 		System.setIn(new FileInputStream("src/input.txt"));
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

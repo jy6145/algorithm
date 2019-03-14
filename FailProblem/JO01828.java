@@ -13,7 +13,7 @@ import java.util.StringTokenizer;
  * 
  */
 
-public class JO1828 {
+public class JO01828 {
 	public static void main(String[] args) throws Exception {
 		System.setIn(new FileInputStream("src/input.txt"));
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
