@@ -5,7 +5,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.StringTokenizer;
 
-public class Main {
+/**
+ * @fileName BOJ02667.java
+ * @date 2019. 3. 15.
+ * @author Park JunYoung
+ * @description 단지번호붙이기, DFS
+ * 
+ */
+
+public class BOJ02667 {
 	static int cnt;
 	static int[][] map;
 	static boolean[][] visit;

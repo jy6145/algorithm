@@ -4,7 +4,15 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-public class Solution {
+/**
+ * @fileName SWEA1248.java
+ * @date 2019. 3. 15.
+ * @author Park JunYoung
+ * @description [S/W 문제해결 응용] 3일차 - 공통조상
+ * 
+ */
+
+public class SWEA1248 {
 	public static void main(String[] args) throws Exception {
 		System.setIn(new FileInputStream("src/input.txt"));
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
