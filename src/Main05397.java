@@ -3,6 +3,7 @@ import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.LinkedList;
 
 public class Main05397 {
 	public static void main(String[] args) throws Exception {
@@ -12,36 +13,37 @@ public class Main05397 {
 
 		int T = Integer.parseInt(br.readLine());
 
+		StringBuilder answer = new StringBuilder();
+
+		LinkedList<Character> list = new LinkedList<Character>();
 		while (T-- > 0) {
 			String s = br.readLine();
-			StringBuilder answer = new StringBuilder();
 			int idx = 0; // 다음 입력될 인덱스 번호
-			int answerLength = 0;
-			int sLength = s.length();
 			char ch = ' ';
-			for (int i = 0; i < sLength; i++) {
+			for (int i = 0; i < s.length(); i++) {
 				ch = s.charAt(i);
 				if (ch == '<') {
 					if (idx - 1 >= 0)
 						idx--;
 				} else if (ch == '>') {
-					if (idx + 1 <= answerLength)
+					if (idx + 1 <= list.size())
 						idx++;
 				} else if (ch == '-') {
 					if (idx > 0) {
-						answer.deleteCharAt(idx - 1);
-						answerLength--;
+						list.remove(idx - 1);
 						idx--;
 					}
-				} else {
-					answer.insert(idx++, ch);
-					answerLength++;
-				}
+				} else
+					list.add(idx++, ch);
 			}
 
+			for (int i = 0; i < list.size(); i++)
+				answer.append(list.get(i));
 			answer.append("\n");
-			bw.write(answer.toString());
+			list.clear();
 		}
+
+		bw.write(answer.toString());
 
 		br.close();
 		bw.close();
