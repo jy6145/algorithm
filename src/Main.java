@@ -1,16 +1,9 @@
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.StringTokenizer;
 
-import javax.security.auth.callback.ConfirmationCallback;
-//7569
 public class Main {
-	static int[] dRow = { 0, -1, 0, 1, 0, 0 };
-	static int[] dCol = { -1, 0, 1, 0, 0, 0 };
-	static int[] dHeight = { 0, 0, 0, 0, -1, 1 };
 
 	public static void main(String[] args) throws Exception {
 		System.setIn(new FileInputStream("src/input.txt"));
@@ -18,81 +11,108 @@ public class Main {
 		StringTokenizer st;
 
 		st = new StringTokenizer(br.readLine());
-
-		int M = Integer.parseInt(st.nextToken());
 		int N = Integer.parseInt(st.nextToken());
-		int H = Integer.parseInt(st.nextToken());
+		int M = Integer.parseInt(st.nextToken());
 
-		int[][][] tomato = new int[N][M][H];
-		boolean[][][] visit = new boolean[N][M][H];
-		int tomatoCnt = 0;
-		int maxTomato = M * N * H;
-		int maxDay = 0;
+		int[][] map = new int[N][M];
 
-		Queue<Node> q = new LinkedList<Node>();
-		for (int i = 0; i < H; i++) {
-			for (int j = 0; j < N; j++) {
-				st = new StringTokenizer(br.readLine());
-				for (int k = 0; k < M; k++) {
-					tomato[j][k][i] = Integer.parseInt(st.nextToken());
-					if (tomato[j][k][i] == 1) {
-						q.offer(new Node(j, k, i, 0));
-						tomatoCnt++;
-					} else if (tomato[j][k][i] == -1)
-						maxTomato--;
-				}
+		st = new StringTokenizer(br.readLine());
+		int row = Integer.parseInt(st.nextToken());
+		int col = Integer.parseInt(st.nextToken());
+		// 0:북, 1:동, 2:남, 3:서
+		int dir = Integer.parseInt(st.nextToken());
+
+		for (int i = 0; i < N; i++) {
+			st = new StringTokenizer(br.readLine());
+			for (int j = 0; j < M; j++) {
+				map[i][j] = Integer.parseInt(st.nextToken());
 			}
 		}
 
-		Node now;
-		while (!q.isEmpty()) {
-			now = q.poll();
+		int cleanCnt = 0;
 
-			if (visit[now.row][now.col][now.height])
+		while (true) {
+			// 1. 현재 위치를 청소
+			if (map[row][col] == 0) {
+				map[row][col] = -1; // 청소한 영역 : -1
+				cleanCnt++;
+			}
+
+			// 2. 위치에서 4방향 탐색
+			// 2-1. 왼쪽부터 청소 공간이 존재한다면 전진하고 청소
+			boolean flag = false;
+			for (int i = 0; i < 4; i++) {
+				dir--;
+				if (dir < 0)
+					dir = 3;
+
+				switch (dir) {
+				case 0: // 북
+					if (map[row - 1][col] == 0) {
+						row--;
+						flag = true;
+					}
+					break;
+				case 1: // 동
+					if (map[row][col + 1] == 0) {
+						col++;
+						flag = true;
+					}
+					break;
+				case 2: // 남
+					if (map[row + 1][col] == 0) {
+						row++;
+						flag = true;
+					}
+					break;
+				case 3:// 서
+					if (map[row][col - 1] == 0) {
+						col--;
+						flag = true;
+					}
+					break;
+				}
+
+				if (flag)
+					break;
+			}
+
+			if (flag)
 				continue;
-			visit[now.row][now.col][now.height] = true;
-			tomato[now.row][now.col][now.height] = 1;
-			tomatoCnt++;
 
-			if (now.day > maxDay)
-				maxDay = now.day;
-
-			int nRow = 0;
-			int nCol = 0;
-			int nHeight = 0;
-			for (int i = 0; i < 6; i++) {
-				nRow = now.row + dRow[i];
-				nCol = now.col + dCol[i];
-				nHeight = now.height + dHeight[i];
-
-				if (0 <= nRow && nRow < N && 0 <= nCol && nCol < M && 0 <= nHeight && nHeight < H
-						&& tomato[nRow][nCol][nHeight] == 0 && !visit[nRow][nCol][nHeight]) {
-					q.offer(new Node(nRow, nCol, nHeight, now.day + 1));
+			// 2-3. 후진
+			boolean endFlag = false;
+			switch (dir) {
+			case 0: // 북
+				if (map[row + 1][col] != 1) {
+					row++;
+					continue;
 				}
+				break;
+			case 1: // 동
+				if (col - 1 >= 0 && map[row][col - 1] != 1) {
+					col--;
+					continue;
+				}
+				break;
+			case 2: // 남
+				if (map[row - 1][col] != 1) {
+					row--;
+					continue;
+				}
+				break;
+			case 3:// 서
+				if (col + 1 < M && map[row][col + 1] != 1) {
+					col++;
+					continue;
+				}
+				break;
 			}
+
+			// 2-4. 작동 정지 확인
+			break;
 		}
 
-		System.out.println(maxTomato + " " + tomatoCnt);
-		int answer = 0;
-		if (maxTomato != tomatoCnt)
-			answer = -1;
-		else
-			answer = maxDay;
-
-		System.out.println(answer);
-	}
-
-	static class Node {
-		int row;
-		int col;
-		int height;
-		int day;
-
-		public Node(int row, int col, int height, int day) {
-			this.row = row;
-			this.col = col;
-			this.height = height;
-			this.day = day;
-		}
+		System.out.println(cleanCnt);
 	}
 }
