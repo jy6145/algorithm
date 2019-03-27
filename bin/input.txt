@@ -1,2 +1,5 @@
-ABRACADABRA
-ECADADABRBCRDARA
+4 4
+####
+#JF#
+#..#
+#..#
