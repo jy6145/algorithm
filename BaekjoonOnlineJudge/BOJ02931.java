@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
  * @fileName BOJ02931.java
  * @date 2019. 3. 30.
  * @author Park JunYoung
- * @description DFS, 가스관
+ * @description 가스관, DFS
  *
  */
 
