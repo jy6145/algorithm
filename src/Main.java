@@ -4,13 +4,6 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-	static int N, M;
-	static int[][] map;
-	static int max;
-
-	static int[] dRow = { -1, 0, 1, 0 };
-	static int[] dCol = { 0, 1, 0, -1 };
-
 	public static void main(String[] args) throws Exception {
 		System.setIn(new FileInputStream("src/input.txt"));
 
@@ -18,88 +11,43 @@ public class Main {
 		StringTokenizer st;
 
 		st = new StringTokenizer(br.readLine());
+		int N = Integer.parseInt(st.nextToken());
+		int M = Integer.parseInt(st.nextToken());
+		int[][] map = new int[N][M];
 
-		N = Integer.parseInt(st.nextToken());
-		M = Integer.parseInt(st.nextToken());
-
-		map = new int[N][M];
-		boolean[][] visit = new boolean[N][M];
-
+		String tmp = "";
+		int now = 0;
 		for (int i = 0; i < N; i++) {
-			st = new StringTokenizer(br.readLine());
+			tmp = br.readLine();
 			for (int j = 0; j < M; j++) {
-				map[i][j] = Integer.parseInt(st.nextToken());
+				now = tmp.charAt(j) - '0';
+				map[i][j] = now;
 			}
 		}
 
-		max = 0;
-		int nRow = 0;
-		int nCol = 0;
+		int r1, r2, c1, c2;
+		int area = 0;
+		int max = 1;
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < M; j++) {
-				visit[i][j] = true;
+				for (int k = 1; k < Math.min(N, M); k++) {
+					r1 = i;
+					c1 = j;
+					r2 = i + k;
+					c2 = j + k;
+					if (r2 < 0 || r2 >= N || c2 < 0 || c2 >= M)
+						break;
 
-				for (int k = 0; k < 4; k++) { // 2칸 선택후 남은 2칸 DFS
-					nRow = i + dRow[k];
-					nCol = j + dCol[k];
-					if (0 <= nRow && nRow < N && 0 <= nCol && nCol < M) {
-						visit[nRow][nCol] = true;
-						dfs(i, j, 2, map[i][j] + map[nRow][nCol], visit);
-						visit[nRow][nCol] = false;
+					// 4개의 모서리가 모두 같으면
+					if (map[r1][c2] == map[r1][c1] && map[r2][c1] == map[r1][c1] && map[r2][c2] == map[r1][c1]) {
+						area = (r2 - r1 + 1) * (c2 - c1 + 1);
+						if (max < area)
+							max = area;
 					}
 				}
-
-				chkT(i, j); // T모양에서 최대값 확인
 			}
 		}
 
 		System.out.println(max);
-	}
-
-	static void chkT(int row, int col) {
-		boolean flag = false;
-
-		int sum = 0;
-		int nRow = 0;
-		int nCol = 0;
-		for (int i = 0; i < 4; i++) {
-			sum = map[row][col];
-			flag = false;
-
-			for (int j = 0; j < 3; j++) {
-				nRow = row + dRow[(i + j) % 4];
-				nCol = col + dCol[(i + j) % 4];
-				if (!(0 <= nRow && nRow < N && 0 <= nCol && nCol < M)) {
-					flag = true;
-					break;
-				}
-				sum += map[nRow][nCol];
-			}
-
-			if (!flag && max < sum)
-				max = sum;
-		}
-	}
-
-	static void dfs(int row, int col, int cnt, int sum, boolean[][] visit) {
-		if (cnt == 4) {
-			if (max < sum)
-				max = sum;
-
-			return;
-		}
-
-		int nRow = 0;
-		int nCol = 0;
-		for (int i = 0; i < 4; i++) {
-			nRow = row + dRow[i];
-			nCol = col + dCol[i];
-
-			if (0 <= nRow && nRow < N && 0 <= nCol && nCol < M && !visit[nRow][nCol]) {
-				visit[nRow][nCol] = true;
-				dfs(nRow, nCol, cnt + 1, sum + map[nRow][nCol], visit);
-				visit[nRow][nCol] = false;
-			}
-		}
 	}
 }
