@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 
 public class Main {
 	// 동 서 남 북 상 하
-	static int[] dLevel = {};
+	static int[] dLevel = {0,0,0,0};
 	static int[] dRow = {};
 	static int[] dCol = {};
 
