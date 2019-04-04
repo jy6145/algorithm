@@ -8,7 +8,7 @@ import java.util.StringTokenizer;
  * @fileName BOJ01389.java
  * @date 2019. 4. 4.
  * @author Park JunYoung
- * @description 케빈 베이컨의 6단계 법칙, 플로이드 와샬 알고리즘 	
+ * @description 케빈 베이컨의 6단계 법칙, 플로이드 와샬 알고리즘
  * 
  */
 
