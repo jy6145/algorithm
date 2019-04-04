@@ -1,16 +1,12 @@
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
-	static int[] dRow = { -1, 0, 1, 0 };
-	static int[] dCol = { 0, 1, 0, -1 };
-
-	static int R, C;
-	static char[][] map;
-	static boolean[][] visit;
-	static int vCnt, kCnt, vSum, kSum;
+	static int N;
+	static int[][] relation;
 
 	public static void main(String[] args) throws Exception {
 		System.setIn(new FileInputStream("src/input.txt"));
@@ -18,56 +14,49 @@ public class Main {
 		StringTokenizer st;
 
 		st = new StringTokenizer(br.readLine());
-		R = Integer.parseInt(st.nextToken());
-		C = Integer.parseInt(st.nextToken());
+		N = Integer.parseInt(st.nextToken());
+		int M = Integer.parseInt(st.nextToken());
 
-		map = new char[R][C];
-		visit = new boolean[R][C];
+		relation = new int[N + 1][N + 1];
 
-		String tmp = "";
-		for (int i = 0; i < R; i++) {
-			tmp = br.readLine();
-			for (int j = 0; j < C; j++) {
-				map[i][j] = tmp.charAt(j);
-			}
+		for (int i = 1; i < N + 1; i++)
+			Arrays.fill(relation[i], 0, N + 1, 10000);
+
+		int a, b;
+		for (int i = 0; i < M; i++) {
+			st = new StringTokenizer(br.readLine());
+			a = Integer.parseInt(st.nextToken());
+			b = Integer.parseInt(st.nextToken());
+			relation[a][b] = 1;
+			relation[b][a] = 1;
 		}
 
-		vSum = 0;
-		kSum = 0;
-		for (int i = 0; i < R; i++) {
-			for (int j = 0; j < C; j++) {
-				if (!visit[i][j] && map[i][j] != '#') {
-					vCnt = 0;
-					kCnt = 0;
-					dfs(i, j);
-					if (kCnt > vCnt)
-						kSum += kCnt;
-					else
-						vSum += vCnt;
+		int[] sum = new int[N + 1];
+		int min = Integer.MAX_VALUE;
+		int answer = 0;
+
+		for (int k = 1; k <= N; k++) {
+			for (int i = 1; i <= N; i++) {
+				for (int j = 1; j <= N; j++) {
+					if (i == j)
+						continue;
+
+					relation[i][j] = Math.min(relation[i][j], relation[i][k] + relation[k][j]);
 				}
 			}
 		}
-		System.out.println(kSum + " " + vSum);
-	}
 
-	static void dfs(int row, int col) {
-		visit[row][col] = true;
+		for (int i = 1; i <= N; i++) {
+			for (int j = 1; j <= N; j++) {
+				sum[i] += relation[i][j];
+			}
 
-		char now = map[row][col];
-
-		if (now == 'v')
-			vCnt++;
-		else if (now == 'k')
-			kCnt++;
-
-		int nRow, nCol;
-
-		for (int i = 0; i < 4; i++) {
-			nRow = row + dRow[i];
-			nCol = col + dCol[i];
-
-			if (0 <= nRow && nRow < R && 0 <= nCol && nCol < C && !visit[nRow][nCol] && map[nRow][nCol] != '#')
-				dfs(nRow, nCol);
+			if (sum[i] < min) {
+				min = sum[i];
+				answer = i;
+			}
 		}
+
+		System.out.println(answer);
 	}
 }
