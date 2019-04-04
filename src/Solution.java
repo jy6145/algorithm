@@ -14,10 +14,10 @@ public class Solution {
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
-
-		int T = Integer.parseInt(br.readLine());
-
-		for (int testCase = 1; testCase <= T; testCase++) {
-		}
+		System.out.println("dfdf");
+//		int T = Integer.parseInt(br.readLine());
+//
+//		for (int testCase = 1; testCase <= T; testCase++) {
+//		}
 	}
 }
