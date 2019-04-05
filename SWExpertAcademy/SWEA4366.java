@@ -14,11 +14,6 @@ import java.util.Set;
  */
 
 public class SWEA4366 {
-	static boolean[] flag;
-	static int N;
-	static int[] weights;
-	static int answer;
-
 	public static void main(String[] args) throws Exception {
 		System.setIn(new FileInputStream("src/input.txt"));
 
