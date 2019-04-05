@@ -1,99 +1,141 @@
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 public class Main {
-	static int[] dRow = { -1, 0, 1, 0, 0 };
-	static int[] dCol = { 0, -1, 0, 1, 0 };
+	static final int MAX_DIST = 1000 * 10000 + 1;
+	static int N, S, D;
+	static List<Edge>[] list;
+	static boolean[] visit;
+	static int minDist;
+	static List<Edge> delRoute;
 
 	public static void main(String[] args) throws Exception {
 		System.setIn(new FileInputStream("src/input.txt"));
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
 
-		st = new StringTokenizer(br.readLine());
-		int R = Integer.parseInt(st.nextToken());
-		int C = Integer.parseInt(st.nextToken());
-		int N = Integer.parseInt(st.nextToken());
+		while (true) {
+			st = new StringTokenizer(br.readLine());
+			N = Integer.parseInt(st.nextToken()); // 장소의 수
+			int M = Integer.parseInt(st.nextToken()); // 도로의 수
 
-		Node[][] map = new Node[R][C];
-
-		String tmp = "";
-		int now = 1;
-		for (int i = 0; i < R; i++) {
-			tmp = br.readLine();
-			for (int j = 0; j < C; j++) {
-				if (tmp.charAt(j) == 'O')
-					map[i][j] = new Node(true, 1);
-				else
-					map[i][j] = new Node(false, 0);
-			}
-		}
-
-		// 아무것도 안함
-		now++;
-
-		boolean[][] tmpMap = new boolean[R][C];
-
-		int nRow = 0;
-		int nCol = 0;
-		while (now <= N) {
-			tmpMap = new boolean[R][C];
-
-			// 설치
-			for (int i = 0; i < R; i++) {
-				for (int j = 0; j < C; j++) {
-					if (map[i][j].bomb) {
-						if (map[i][j].time == 0)
-							map[i][j].time--;
-						else {
-							tmpMap[i][j] = true;
-						}
-					} else
-						map[i][j] = new Node(true, 1);
-				}
-			}
-
-			if (N <= now)
+			if (N == 0 && M == 0)// 종료
 				break;
 
-			// 폭파
-			now++;
-			for (int i = 0; i < R; i++) {
-				for (int j = 0; j < C; j++) {
-					if (tmpMap[i][j]) {
-						for (int k = 0; k < 5; k++) {
-							nRow = i + dRow[k];
-							nCol = j + dCol[k];
+			st = new StringTokenizer(br.readLine());
+			S = Integer.parseInt(st.nextToken()); // 출발지점
+			D = Integer.parseInt(st.nextToken()); // 도착지점
 
-							if (0 <= nRow && nRow < R && 0 <= nCol && nCol < C)
-								map[nRow][nCol] = new Node(false, 0);
-						}
-					}
+			list = new ArrayList[N];
+			for (int i = 0; i < N; i++)
+				list[i] = new ArrayList<Edge>();
+
+			int u = 0;
+			int v = 0;
+			int p = 0;
+			for (int i = 0; i < M; i++) {
+				st = new StringTokenizer(br.readLine());
+				u = Integer.parseInt(st.nextToken());
+				v = Integer.parseInt(st.nextToken());
+				p = Integer.parseInt(st.nextToken());
+
+				list[u].add(new Edge(u, v, p));
+			}
+
+			int[] dist = new int[N];
+			Arrays.fill(dist, MAX_DIST);
+			Queue<Edge> q = new LinkedList<>();
+
+			dist[S] = 0; // 자기 자신의 거리는 0
+			for (int i = 0; i < list[S].size(); i++) {
+				dist[list[S].get(i).des] = list[S].get(i).distance;
+				q.offer(list[S].get(i));
+			}
+
+			// 최단 경로 크기 찾기
+			Edge now = null;
+			Edge next;
+			while (!q.isEmpty()) {
+				now = q.poll();
+
+				for (int i = 0; i < list[now.des].size(); i++) {
+					next = list[now.des].get(i);
+					dist[next.des] = Math.min(dist[next.des], dist[next.src] + next.distance);
 				}
 			}
-			now++;
-		}
 
-		for (int i = 0; i < R; i++) {
-			for (int j = 0; j < C; j++) {
-				if (map[i][j].bomb)
-					System.out.print("O");
-				else
-					System.out.print(".");
+			// 삭제할 경로 찾기
+			while (true) {
+				visit = new boolean[N];
+				delRoute = new LinkedList<>();
+				minDist = dist[D];
+				List<Integer> empty = new ArrayList<>();
+				empty.add(S);
+				dfs(S, 0, empty);
+				
+				//삭제하기
+				for(int i =0;i<delRoute.size();i++) {
+					
+				}
+
+				if (delRoute.size() == 0)
+					break;
 			}
-			System.out.println();
+			
+			
+
+			System.out.println(Arrays.toString(dist));
 		}
 	}
 
-	static class Node {
-		boolean bomb;
-		int time;
+	static void dfs(int now, int dist, List<Integer> route) {
+		if (dist > minDist) {
+			return;
+		}
 
-		public Node(boolean bomb, int time) {
-			this.bomb = bomb;
-			this.time = time;
+		visit[now] = true;
+
+		if (now == D) {
+			System.out.println("!");
+			for (int i = 0; i < route.size() - 1; i++) {
+				delRoute.add(new Edge(route.get(i), route.get(i + 1), -1));
+			}
+
+			return;
+		}
+
+		List<Integer> cpRoute = new ArrayList<>();
+		cpRoute.addAll(route);
+
+		for (int i = 0; i < list[now].size(); i++) {
+			if (!visit[list[now].get(i).des]) {
+				cpRoute = new ArrayList<>();
+				cpRoute.addAll(route);
+
+				cpRoute.add(list[now].get(i).des);
+				dfs(list[now].get(i).des, dist + list[now].get(i).distance, cpRoute);
+			}
+		}
+	}
+
+	static class Edge {
+		int src; // 출발 지점
+		int des; // 도착 지점
+		int distance; // 거리
+
+		public Edge(int src, int des, int distance) {
+			this.src = src;
+			this.des = des;
+			this.distance = distance;
 		}
 	}
 }
