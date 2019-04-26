@@ -2,140 +2,159 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 public class Main {
-	static final int MAX_DIST = 1000 * 10000 + 1;
-	static int N, S, D;
-	static List<Edge>[] list;
-	static boolean[] visit;
-	static int minDist;
-	static List<Edge> delRoute;
+	static int[] dRow = { 0, -1, 1, 0, 0 };
+	static int[] dCol = { 0, 0, 0, 1, -1 };
 
 	public static void main(String[] args) throws Exception {
 		System.setIn(new FileInputStream("src/input.txt"));
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
 
-		while (true) {
+		st = new StringTokenizer(br.readLine());
+		int R = Integer.parseInt(st.nextToken());
+		int C = Integer.parseInt(st.nextToken());
+		int M = Integer.parseInt(st.nextToken());
+
+		FishList[][] map = new FishList[R + 1][C + 1];
+		for (int i = 1; i <= R; i++) {
+			for (int j = 1; j <= C; j++) {
+				map[i][j] = new FishList();
+			}
+		}
+
+		int r, c, s, d, z;
+		for (int i = 0; i < M; i++) {
 			st = new StringTokenizer(br.readLine());
-			N = Integer.parseInt(st.nextToken()); // 장소의 수
-			int M = Integer.parseInt(st.nextToken()); // 도로의 수
+			r = Integer.parseInt(st.nextToken());
+			c = Integer.parseInt(st.nextToken());
+			s = Integer.parseInt(st.nextToken());
+			d = Integer.parseInt(st.nextToken());
+			z = Integer.parseInt(st.nextToken());
 
-			if (N == 0 && M == 0)// 종료
-				break;
+			map[r][c].list.add(new Fish(r, c, d, s, z));
+		}
 
-			st = new StringTokenizer(br.readLine());
-			S = Integer.parseInt(st.nextToken()); // 출발지점
-			D = Integer.parseInt(st.nextToken()); // 도착지점
-
-			list = new ArrayList[N];
-			for (int i = 0; i < N; i++)
-				list[i] = new ArrayList<Edge>();
-
-			int u = 0;
-			int v = 0;
-			int p = 0;
-			for (int i = 0; i < M; i++) {
-				st = new StringTokenizer(br.readLine());
-				u = Integer.parseInt(st.nextToken());
-				v = Integer.parseInt(st.nextToken());
-				p = Integer.parseInt(st.nextToken());
-
-				list[u].add(new Edge(u, v, p));
-			}
-
-			int[] dist = new int[N];
-			Arrays.fill(dist, MAX_DIST);
-			Queue<Edge> q = new LinkedList<>();
-
-			dist[S] = 0; // 자기 자신의 거리는 0
-			for (int i = 0; i < list[S].size(); i++) {
-				dist[list[S].get(i).des] = list[S].get(i).distance;
-				q.offer(list[S].get(i));
-			}
-
-			// 최단 경로 크기 찾기
-			Edge now = null;
-			Edge next;
-			while (!q.isEmpty()) {
-				now = q.poll();
-
-				for (int i = 0; i < list[now.des].size(); i++) {
-					next = list[now.des].get(i);
-					dist[next.des] = Math.min(dist[next.des], dist[next.src] + next.distance);
-				}
-			}
-
-			// 삭제할 경로 찾기
-			while (true) {
-				visit = new boolean[N];
-				delRoute = new LinkedList<>();
-				minDist = dist[D];
-				List<Integer> empty = new ArrayList<>();
-				empty.add(S);
-				dfs(S, 0, empty);
-				
-				//삭제하기
-				for(int i =0;i<delRoute.size();i++) {
-					
-				}
-
-				if (delRoute.size() == 0)
+		int sum = 0;
+		Queue<Fish> addList = new LinkedList<Fish>();
+//		printMap(map);
+		for (int i = 1; i <= C; i++) {
+			// 물고기 잡기
+			for (int j = 1; j <= R; j++) {
+				if (map[j][i].list.size() == 1) {
+					sum += map[j][i].list.get(0).size;
+					map[j][i].list.remove(0);
 					break;
+				}
 			}
-			
-			
 
-			System.out.println(Arrays.toString(dist));
+			// 물고기 이동
+			int row, col;
+			Fish now;
+			for (int j = 1; j <= R; j++) {
+				for (int k = 1; k <= C; k++) {
+					if (map[j][k].list.size() > 0) {
+						now = map[j][k].list.get(0);
+						row = now.row;
+						col = now.col;
+						for (int l = 0; l < now.speed; l++) {
+							row += dRow[now.dir];
+							col += dCol[now.dir];
+
+							if (row == 0) {
+								row = 2;
+								now.dir = 2;
+							} else if (row == R + 1) {
+								row = R - 1;
+								now.dir = 1;
+							} else if (col == 0) {
+								col = 2;
+								now.dir = 3;
+							} else if (col == C + 1) {
+								col = C - 1;
+								now.dir = 4;
+							}
+//							System.out.println(row + " " + col);
+						}
+
+						addList.add(new Fish(row, col, now.dir, now.speed, now.size));
+						map[j][k].list.remove(0);
+					}
+				}
+			}
+
+			// 물고기 이동 갱신
+			while (!addList.isEmpty()) {
+				now = addList.poll();
+				map[now.row][now.col].list.add(now);
+			}
+
+			// 물고기 가장 큰거 생존
+			for (int j = 1; j <= R; j++) {
+				for (int k = 1; k <= C; k++) {
+					if (map[j][k].list.size() >= 2) {
+						Collections.sort(map[j][k].list, new Comparator<Fish>() {
+
+							@Override
+							public int compare(Fish o1, Fish o2) {
+								return o2.size - o1.size;
+							}
+						});
+					}
+
+					int size = map[j][k].list.size();
+					for (int l = 0; l < size - 1; l++) {
+						map[j][k].list.remove(1);
+					}
+				}
+			}
+
+//			printMap(map);
+		}
+
+		System.out.println(sum);
+	}
+
+	static void printMap(FishList[][] map) {
+		System.out.println("===================");
+		for (int i = 1; i < map.length; i++) {
+			for (int j = 1; j < map[i].length; j++) {
+				if (map[i][j].list.size() > 0)
+					System.out.print(map[i][j].list.get(0).size + " ");
+				else
+					System.out.print("0 ");
+			}
+			System.out.println();
 		}
 	}
 
-	static void dfs(int now, int dist, List<Integer> route) {
-		if (dist > minDist) {
-			return;
-		}
+	static class Fish {
+		int size;
+		int row;
+		int col;
+		int dir;
+		int speed;
 
-		visit[now] = true;
-
-		if (now == D) {
-			System.out.println("!");
-			for (int i = 0; i < route.size() - 1; i++) {
-				delRoute.add(new Edge(route.get(i), route.get(i + 1), -1));
-			}
-
-			return;
-		}
-
-		List<Integer> cpRoute = new ArrayList<>();
-		cpRoute.addAll(route);
-
-		for (int i = 0; i < list[now].size(); i++) {
-			if (!visit[list[now].get(i).des]) {
-				cpRoute = new ArrayList<>();
-				cpRoute.addAll(route);
-
-				cpRoute.add(list[now].get(i).des);
-				dfs(list[now].get(i).des, dist + list[now].get(i).distance, cpRoute);
-			}
+		public Fish(int row, int col, int dir, int speed, int size) {
+			this.row = row;
+			this.col = col;
+			this.dir = dir;
+			this.speed = speed;
+			this.size = size;
 		}
 	}
 
-	static class Edge {
-		int src; // 출발 지점
-		int des; // 도착 지점
-		int distance; // 거리
+	static class FishList {
+		ArrayList<Fish> list;
 
-		public Edge(int src, int des, int distance) {
-			this.src = src;
-			this.des = des;
-			this.distance = distance;
+		public FishList() {
+			list = new ArrayList<Fish>();
 		}
 	}
 }
