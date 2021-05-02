@@ -1,22 +1,13 @@
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.Stack;
 import java.util.StringTokenizer;
-
-import javax.xml.soap.Node;
 
 /**
  * @fileName SWEA1211.java
  * @date 2019. 3. 27.
  * @author Park JunYoung
- * @description [S/W 문제해결 기본] 2일차 - Ladder2
+ * @description [S/W 臾몄젣�빐寃� 湲곕낯] 2�씪李� - Ladder2
  * 
  */
 
@@ -29,7 +20,7 @@ public class SWEA1211 {
 		int T = 10;
 
 		for (int testCase = 1; testCase <= T; testCase++) {
-			br.readLine(); // 테스트 케이스 번호
+			br.readLine(); // �뀒�뒪�듃 耳��씠�뒪 踰덊샇
 
 			int[][] ladder = new int[100][100];
 
@@ -54,12 +45,12 @@ public class SWEA1211 {
 					continue;
 
 				while (row != 99) {
-					if (col - 1 >= 0 && ladder[row][col - 1] == 1) { // 왼쪽 이동
+					if (col - 1 >= 0 && ladder[row][col - 1] == 1) { // �쇊履� �씠�룞
 						while (col - 1 >= 0 && ladder[row][col - 1] == 1) {
 							col--;
 							cnt++;
 						}
-					} else if (col + 1 < 100 && ladder[row][col + 1] == 1) { // 오른쪽 이동
+					} else if (col + 1 < 100 && ladder[row][col + 1] == 1) { // �삤瑜몄そ �씠�룞
 						while (col + 1 < 100 && ladder[row][col + 1] == 1) {
 							col++;
 							cnt++;
