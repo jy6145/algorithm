@@ -62,5 +62,4 @@ public class Solution {
 		int[] arr = { 7, 4, 5, 6 };
 		s.solution(2, 10, arr);
 	}
-
 }
