@@ -2,7 +2,7 @@
  * @fileName PRGM67256.java
  * @date 2021. 5. 15.
  * @author Park JunYoung
- * @description 67256. 키패드 누르기	
+ * @description 67256. 키패드 누르기
  * 
  */
 
@@ -61,7 +61,7 @@ public class PRGM67256 {
 	}
 
 	public static void main(String[] args) {
-		Solution s = new Solution();
+		PRGM42840 s = new PRGM42840();
 
 	}
 }
