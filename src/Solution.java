@@ -1,61 +1,38 @@
-
+import java.util.ArrayList;
 
 public class Solution {
-	public String solution(int[] numbers, String hand) {
-		String answer = "";
+	public static int[] solution(int[] answers) {
+		int[] answer = {};
 
-		int left = 10; // *
-		int right = 11; // #
+		int[][] pattern = { { 1, 2, 3, 4, 5 }, { 2, 1, 2, 3, 2, 4, 2, 5 }, { 3, 3, 1, 1, 2, 2, 4, 4, 5, 5 } };
+		int[] score = { 0, 0, 0 };
 
-		for (int number : numbers) {
-			if (number == 1 || number == 4 || number == 7) {
-				answer += "L";
-				left = number;
-			} else if (number == 3 || number == 6 || number == 9) {
-				answer += "R";
-				right = number;
-			} else {
-				if (calcDist(left, number) < calcDist(right, number)) {
-					answer += "L";
-					left = number;
-				} else if (calcDist(left, number) > calcDist(right, number)) {
-					answer += "R";
-					right = number;
-				} else {
-					if (hand.equals("left")) {
-						answer += "L";
-						left = number;
-					} else {
-						answer += "R";
-						right = number;
-					}
-				}
+		for (int i = 0; i < answers.length; i++) {
+			for (int j = 0; j < 3; j++) {
+				if (pattern[j][i % pattern[j].length] == answers[i])
+					score[j]++;
 			}
+		}
+
+		int max = Math.max(score[0], Math.max(score[1], score[2]));
+
+		ArrayList<Integer> arr = new ArrayList<>();
+
+		for (int i = 0; i < 3; i++) {
+			if (score[i] == max)
+				arr.add(i);
+		}
+
+		answer = new int[arr.size()];
+
+		for (int i = 0; i < answer.length; i++) {
+			answer[i] = arr.get(i) + 1;
 		}
 
 		return answer;
 	}
 
-	public int calcDist(int now, int target) {
-		Coordi[] list = { new Coordi(3, 1), new Coordi(0, 0), new Coordi(0, 1), new Coordi(0, 2), new Coordi(1, 0),
-				new Coordi(1, 1), new Coordi(1, 2), new Coordi(2, 0), new Coordi(2, 1), new Coordi(2, 2),
-				new Coordi(3, 0), new Coordi(3, 2) };
-
-		return Math.abs(list[now].x - list[target].x) + Math.abs(list[now].y - list[target].y);
-	}
-
-	public class Coordi {
-		int x;
-		int y;
-
-		Coordi(int x, int y) {
-			this.x = x;
-			this.y = y;
-		}
-	}
-
 	public static void main(String[] args) {
-		Solution s = new Solution();
-
+		PRGM42840.solution(null);
 	}
 }
