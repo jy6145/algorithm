@@ -1,6 +1,12 @@
+/**
+ * @fileName PRGM67256.java
+ * @date 2021. 5. 15.
+ * @author Park JunYoung
+ * @description 67256. 키패드 누르기	
+ * 
+ */
 
-
-public class Solution {
+public class PRGM67256 {
 	public String solution(int[] numbers, String hand) {
 		String answer = "";
 

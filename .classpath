@@ -6,6 +6,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="Programmers"/>
 	<classpathentry kind="src" path="SWExpertAcademy"/>
 	<classpathentry kind="src" path="BaekjoonOnlineJudge"/>
 	<classpathentry kind="src" path="FailProblem"/>

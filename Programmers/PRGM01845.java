@@ -1,12 +1,12 @@
 /**
  * @fileName Solution.java
  * @date 2021. 5. 15.
- * @author author
+ * @author Park JunYoung
  * @description 1845. 포켓몬	
  * 
  */
 
-public class Solution {
+public class PRGM01845 {
 	public int solution(int[] nums) {
 		int answer = 0;
 
@@ -26,7 +26,7 @@ public class Solution {
 	}
 
 	public static void main(String[] args) {
-		Solution s = new Solution();
+		PRGM01845 s = new PRGM01845();
 		int[] nums = { 3, 3, 3, 2, 2, 2 };
 
 		System.out.println(s.solution(nums));
